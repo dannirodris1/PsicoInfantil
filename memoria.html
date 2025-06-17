@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="shortcut icon" href="favicon/favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css"/>
+
+  <title>Psicología del Desarrollo Infantil</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="estilos.css"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+
+<body>
+ <nav class="navbar navbar-expand-lg custom-navbar">
+  <div class="container">
+    <a class="navbar-brand d-flex align-items-center" href="index.html">
+      <img src="img/Arcoiris-PNG-Background.png" alt="Logo" width="50" height="45" class="me-2" />
+      Psicología del Desarrollo Infantil
+    </a>
+
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#menuPrincipal"
+      aria-controls="menuPrincipal"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="menuPrincipal">
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link" href="index.html">Inicio</a>
+        </li>
+
+        <li class="nav-item dropdown">
+          <a
+            class="nav-link dropdown-toggle"
+            href="#"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            Etapas
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="index.html#etapaPrenatal">Etapa Prenatal</a></li>
+            <li><a class="dropdown-item" href="primerainfancia.html">Primera Infancia</a></li>
+            <li><a class="dropdown-item" href="infanciatemprana.html">Infancia Temprana</a></li>
+            <li><a class="dropdown-item" href="infanciaintermedia.html">Infancia Intermedia</a></li>
+            <li><a class="dropdown-item" href="adolescencia.html">Adolescencia</a></li>
+          </ul>
+        </li>
+
+         <li class="nav-item">
+          <a class="nav-link" href="juegos.html">Juegos</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="padres.html">Guía</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  <section class="section-title-memoria">
+ <h1>Memory de Colores</h1>
+  </section>
+  <div id="nivel">Nivel 1</div>
+  <div id="grid" class="grid"></div>
+  <div class="message" id="mensaje"></div>
+  <button class="button" id="reiniciarTodo" style="display:none;">Reiniciar todo</button>
+  <footer class="footer-custom">
+  <div class="footer-container">
+
+
+    <div class="footer-col">
+      <img src="img/Arcoiris-PNG-Background.png" alt="Logo" class="footer-logo">
+      <h4 class="brand-name">Psicología del Desarrollo Infantil</del></h4>
+      <p class="brand-desc">
+       El propósito de esta página es diseñar y desarrollar una página web accesible y educativa dirigida a padres, maestros y cuidadores, con el fin de proporcionar información confiable y práctica sobre el desarrollo psicológico infantil.
+
+
+      </p>
+    </div>
+
+ 
+    <div class="footer-col center-col">
+  <h5>LINKS</h5>
+  <ul>
+    <li><a href="index.html">Inicio</a></li>
+    <li><a href="juegos.html">Juegos</a></li>
+    <li><a href="padres.html">Guía</a></li>
+  </ul>
+</div>
+ 
+    <div class="footer-col">
+      <h5>INFORMACIÓN</h5>
+      <p class="info-text">
+       Entender la mente de un niño es el primer paso para guiarlo con amor y conciencia. Esta página es un espacio para apoyar, informar y acompañar en el crecimiento emocional de la infancia. Juntos construimos un mejor comienzo.
+      </p>
+    </div>
+    <div class="footer-bottom">
+    <p>©2025 PDI. Derechos Reservados.</p>
+  </div>
+
+  </div>
+</footer>
+
+
+  <script>
+    const grid = document.getElementById("grid");
+    const mensaje = document.getElementById("mensaje");
+    const nivelTexto = document.getElementById("nivel");
+    const btnReiniciarTodo = document.getElementById("reiniciarTodo");
+
+    let nivel = 1;
+    const sonidoCorrecto = new Audio("sonidos/correct-choice-43861.mp3");
+    const sonidoIncorrecto = new Audio("sonidos/incorrect-293358.mp3");
+    const sonidoNivel = new Audio("sonidos/happy-ending-94451.mp3"); 
+    const niveles = {
+      1: ["red", "blue"],
+      2: ["red", "blue", "green", "yellow"],
+      3: ["red", "blue", "green", "yellow", "orange", "purple"]
+    };
+    
+    let seleccionadas = [];
+    let bloqueadas = [];
+
+    function iniciarNivel(n) {
+      grid.innerHTML = "";
+      mensaje.textContent = "";
+      seleccionadas = [];
+      bloqueadas = [];
+      nivelTexto.textContent = "Nivel " + n;
+      btnReiniciarTodo.style.display = "none";
+
+      const colores = [...niveles[n], ...niveles[n]]; 
+      const mezcladas = colores.sort(() => 0.5 - Math.random());
+
+      const columnas = Math.ceil(Math.sqrt(colores.length));
+      grid.style.gridTemplateColumns = "repeat(" + columnas + ", 80px)"
+      mezcladas.forEach((color, index) => {
+        const card = document.createElement("div");
+        card.classList.add("card");
+        card.dataset.color = color;
+        card.dataset.index = index;
+
+        card.addEventListener("click", () => {
+          if (bloqueadas.includes(index) || seleccionadas.includes(card)) return;
+          card.style.background = color;
+          seleccionadas.push(card);
+
+          if (seleccionadas.length === 2) {
+            const [c1, c2] = seleccionadas;
+            if (c1.dataset.color === c2.dataset.color) {
+                c1.classList.add("acertada");
+                c2.classList.add("acertada");
+                sonidoCorrecto.play();
+
+                bloqueadas.push(c1.dataset.index, c2.dataset.index);
+                 seleccionadas = [];
+             if (bloqueadas.length === mezcladas.length) {
+                 mensaje.textContent = "¡Nivel completado!";
+                 setTimeout(() => {
+                  pasarAlSiguienteNivel();
+                }, 1500);
+               }
+            } else {
+             sonidoIncorrecto.play();
+              setTimeout(() => {
+             c1.style.background = "#ccc";
+              c2.style.background = "#ccc";
+             seleccionadas = [];
+             }, 800);
+}
+          }
+        });
+
+        grid.appendChild(card);
+      });
+    }
+
+    function pasarAlSiguienteNivel() {
+      if (nivel < 3) {
+        mensaje.textContent = "¡Bien hecho! Pasando al nivel " + (nivel + 1) + "...";
+        setTimeout(() => {
+          nivel++;
+          iniciarNivel(nivel);
+        }, 1500);
+      } else {
+        sonidoNivel.play();
+        mensaje.textContent = "🎉 ¡Completaste todos los niveles!";
+        btnReiniciarTodo.style.display = "inline-block";
+      }
+    }
+
+    btnReiniciarTodo.addEventListener("click", () => {
+      nivel = 1;
+      iniciarNivel(nivel);
+    });
+
+    iniciarNivel(nivel);
+  </script>
+</body>
+</html>

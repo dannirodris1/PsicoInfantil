@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="shortcut icon" href="favicon/favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css"/>
+
+  <title>Psicología del Desarrollo Infantil</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="estilos.css"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+
+<body>
+ <nav class="navbar navbar-expand-lg custom-navbar">
+  <div class="container">
+    <a class="navbar-brand d-flex align-items-center" href="index.html">
+      <img src="img/Arcoiris-PNG-Background.png" alt="Logo" width="50" height="45" class="me-2" />
+      Psicología del Desarrollo Infantil
+    </a>
+
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#menuPrincipal"
+      aria-controls="menuPrincipal"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="menuPrincipal">
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link" href="index.html">Inicio</a>
+        </li>
+
+        <li class="nav-item dropdown">
+          <a
+            class="nav-link dropdown-toggle"
+            href="#"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            Etapas
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="index.html#etapaPrenatal">Etapa Prenatal</a></li>
+            <li><a class="dropdown-item" href="primerainfancia.html">Primera Infancia</a></li>
+            <li><a class="dropdown-item" href="infanciatemprana.html">Infancia Temprana</a></li>
+            <li><a class="dropdown-item" href="infanciaintermedia.html">Infancia Intermedia</a></li>
+            <li><a class="dropdown-item" href="adolescencia.html">Adolescencia</a></li>
+          </ul>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="juegos.html">Juegos</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="padres.html">Guía</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+ 
+  <div id="game-container">
+    <h2>Ayuda al ratoncito 🐭 a llegar al queso 🧀</h2>
+    <div id="maze"></div>
+    <div id="message"></div>
+    <div id="controls">
+      <div><button onclick="movePlayer(-1, 0)">⬆️</button></div>
+      <div>
+        <button onclick="movePlayer(0, -1)">⬅️</button>
+        <button onclick="movePlayer(0, 1)">➡️</button>
+      </div>
+      <div><button onclick="movePlayer(1, 0)">⬇️</button></div>
+    </div>
+  </div>
+
+    <footer class="footer-custom">
+  <div class="footer-container">
+
+    <div class="footer-col">
+      <img src="img/Arcoiris-PNG-Background.png" alt="Logo" class="footer-logo">
+      <h4 class="brand-name">Psicología del Desarrollo Infantil</del></h4>
+      <p class="brand-desc">
+       El propósito de esta página es diseñar y desarrollar una página web accesible y educativa dirigida a padres, maestros y cuidadores, con el fin de proporcionar información confiable y práctica sobre el desarrollo psicológico infantil.
+
+
+      </p>
+    </div>
+
+
+    <div class="footer-col center-col"> 
+  <h5>LINKS</h5>
+  <ul>
+    <li><a href="index.html">Inicio</a></li>
+    <li><a href="juegos.html">Juegos</a></li>
+    <li><a href="padres.html">Guía</a></li>
+  </ul>
+</div>
+  
+    <div class="footer-col">
+      <h5>INFORMACIÓN</h5>
+      <p class="info-text">
+       Entender la mente de un niño es el primer paso para guiarlo con amor y conciencia. Esta página es un espacio para apoyar, informar y acompañar en el crecimiento emocional de la infancia. Juntos construimos un mejor comienzo.
+      </p>
+    </div>
+    <div class="footer-bottom">
+    <p>©2025 PDI. Derechos Reservados.</p>
+  </div>
+
+  </div>
+</footer>
+
+
+ <script>
+  const mazeLayout = [
+    ['S', ' ', 'X', ' ', ' '],
+    ['X', ' ', 'X', ' ', 'X'],
+    [' ', ' ', ' ', ' ', 'X'],
+    ['X', 'X', 'X', ' ', ' '],
+    [' ', ' ', 'X', 'X', 'E']
+  ];
+
+  const mazeDiv = document.getElementById('maze');
+  const messageDiv = document.getElementById('message');
+  let playerPosition = { row: 0, col: 0 };
+
+  function drawMaze() {
+    mazeDiv.innerHTML = '';
+    for (let r = 0; r < mazeLayout.length; r++) {
+      for (let c = 0; c < mazeLayout[0].length; c++) {
+        const cell = document.createElement('div');
+        cell.classList.add('cell');
+
+        if (mazeLayout[r][c] === 'X') {
+          cell.classList.add('wall');
+        } else if (r === playerPosition.row && c === playerPosition.col) {
+          cell.textContent = '🐭';
+        } else if (mazeLayout[r][c] === 'E') {
+          cell.textContent = '🧀';
+        }
+
+        mazeDiv.appendChild(cell);
+      }
+    }
+  }
+
+  function movePlayer(rowOffset, colOffset) {
+    const newRow = playerPosition.row + rowOffset;
+    const newCol = playerPosition.col + colOffset;
+
+    if (
+      newRow >= 0 && newRow < mazeLayout.length &&
+      newCol >= 0 && newCol < mazeLayout[0].length &&
+      mazeLayout[newRow][newCol] !== 'X'
+    ) {
+      playerPosition = { row: newRow, col: newCol };
+      drawMaze();
+
+      if (mazeLayout[newRow][newCol] === 'E') {
+        document.removeEventListener('keydown', keyHandler);
+
+        messageDiv.innerHTML = `
+          <p style="font-size: 18px; margin-bottom: 10px;">¡Ganaste! 🎉</p>
+          <button onclick="resetGame()" style="
+            font-size: 14px;
+            padding: 5px 10px;
+            background-color: #6c63ff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+          ">🔁 Reiniciar</button>
+        `;
+      }
+    }
+  }
+
+  function keyHandler(e) {
+    switch (e.key) {
+      case 'ArrowUp': movePlayer(-1, 0); break;
+      case 'ArrowDown': movePlayer(1, 0); break;
+      case 'ArrowLeft': movePlayer(0, -1); break;
+      case 'ArrowRight': movePlayer(0, 1); break;
+    }
+  }
+
+  document.addEventListener('keydown', keyHandler);
+  drawMaze();
+
+  function resetGame() {
+    location.reload();
+  }
+</script>
+</body>
+</html>
